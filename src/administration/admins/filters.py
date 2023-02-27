@@ -2,6 +2,7 @@ import django_filters
 from django.forms import TextInput
 
 from src.accounts.models import User
+from src.administration.admins.models import Product
 
 
 class UserFilter(django_filters.FilterSet):
@@ -13,3 +14,14 @@ class UserFilter(django_filters.FilterSet):
     class Meta:
         model = User
         fields = {}
+
+
+class ProductFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(widget=TextInput(attrs={'placeholder': 'Product Name'}), lookup_expr='icontains')
+    code = django_filters.CharFilter(widget=TextInput(attrs={'placeholder': 'Product Code'}), lookup_expr='icontains')
+
+    class Meta:
+        model = Product
+        fields = [
+            'is_active'
+        ]

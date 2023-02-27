@@ -12,7 +12,7 @@ from django.views.generic import (
 
 # from faker_data import initialization
 from src.accounts.models import User
-from src.administration.admins.filters import UserFilter
+from src.administration.admins.filters import UserFilter, ProductFilter
 from src.administration.admins.models import Product, Invoice
 
 admin_decorators = [login_required, user_passes_test(lambda u: u.is_superuser)]
@@ -103,6 +103,18 @@ class UserPasswordResetView(View):
 @method_decorator(admin_decorators, name='dispatch')
 class ProductListView(ListView):
     queryset = Product.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductListView, self).get_context_data(**kwargs)
+        object_filter = ProductFilter(self.request.GET, queryset=Product.objects.filter())
+        context['filter_form'] = object_filter.form
+
+        paginator = Paginator(object_filter.qs, 50)
+        page_number = self.request.GET.get('page')
+        page_object = paginator.get_page(page_number)
+
+        context['object_list'] = page_object
+        return context
 
 
 @method_decorator(admin_decorators, name='dispatch')

@@ -10,11 +10,6 @@
     Invoicer
 {% endblock %}
 
-{% block page_heading_right %}
-    <a href="{% url 'admins:product-list' %}">
-        <i class="fa fa-arrow-left"></i> Invoicer
-    </a>
-{% endblock %}
 
 {% block content %}
 
@@ -22,15 +17,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-
-                        {{ form|crispy }}
-                        <div class="">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
-
+                    .... building
                 </div>
             </div>
         </div>

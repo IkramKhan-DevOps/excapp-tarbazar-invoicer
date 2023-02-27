@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block page_heading_right %}
-    <a href="{% url 'admins:invoice-add' %}" class="btn btn-success">
+    <a href="{% url 'admins:invoicer' %}" class="btn btn-success">
             <i class="fa fa-plus"></i> New Invoice
         </a>
 {% endblock %}
@@ -58,8 +58,7 @@
                                         </td>
                                         <td>{{ object.created_on }}</td>
                                         <td>
-                                            <a href="{% url 'admins:invoice-update' object.pk %}"><b><i class="fa fa-edit"></i> Edit</b></a>&nbsp;&nbsp;
-                                            <a href="{% url 'admins:invoice-delete' object.pk %}" class="text-danger"><b><i class="fa fa-trash"></i> Delete</b></a>
+                                            <a href="{% url 'admins:invoicer' %}"><b><i class="fa fa-edit"></i> View</b></a>
                                         </td>
                                     </tr>
                                 {% endfor %}

@@ -1,4 +1,6 @@
 from django.urls import path
+from django.views.generic import TemplateView
+
 from .views import (
     DashboardView,
     ProductListView, ProductCreateView, ProductDeleteView, ProductUpdateView,
@@ -19,4 +21,6 @@ urlpatterns = [
     path('invoice/add/', InvoiceCreateView.as_view(), name='invoice-add'),
     path('invoice/<int:pk>/change/', InvoiceUpdateView.as_view(), name='invoice-update'),
     path('invoice/<int:pk>/delete/', InvoiceDeleteView.as_view(), name='invoice-delete'),
+
+    path('invoicer', TemplateView.as_view(template_name='under-construction.html'), name='invoicer')
 ]
