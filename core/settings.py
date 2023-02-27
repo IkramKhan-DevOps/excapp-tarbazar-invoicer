@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'django_filters',
 
+    "django_browser_reload",
+
     # WEB APPS
     'allauth',
     'allauth.account',
@@ -179,7 +181,6 @@ ACCOUNT_USERNAME_REQUIRED = False
 OLD_PASSWORD_FIELD_ENABLED = True
 LOGOUT_ON_PASSWORD_CHANGE = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-
 
 """ DEBUGGING TOOLS """
 
