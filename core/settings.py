@@ -24,7 +24,6 @@ environ.Env.read_env(BASE_DIR / '.env')
 DEBUG = True
 ROOT_URLCONF = 'core.urls'
 AUTH_USER_MODEL = 'accounts.User'
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/accounts/cross-auth/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -48,6 +47,7 @@ INSTALLED_APPS = [
 
     # STARTER APPS
     'crispy_forms',
+    'crispy_bootstrap5',
     'ckeditor',
     'django_filters',
 
@@ -61,6 +61,9 @@ INSTALLED_APPS = [
     'src.accounts.apps.AccountsConfig',
     'src.administration.admins.apps.AdministrationAdminConfig'
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     # DJANGO MIDDLEWARES
