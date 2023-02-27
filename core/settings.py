@@ -22,7 +22,6 @@ env = environ.Env(
 environ.Env.read_env(BASE_DIR / '.env')
 
 DEBUG = True
-SERVER = False
 ROOT_URLCONF = 'core.urls'
 AUTH_USER_MODEL = 'accounts.User'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

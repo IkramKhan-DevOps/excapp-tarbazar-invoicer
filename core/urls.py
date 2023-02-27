@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', admin('blog.urls'))
 """
 from django.contrib import admin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from django.views.static import serve
@@ -24,6 +24,14 @@ from core.settings import ENVIRONMENT, MEDIA_ROOT, STATIC_ROOT
 
 def home_view(request):
     return redirect("accounts:cross-auth")
+
+
+def handler404(request, *args, **kwargs):
+    return render(request, "404.html")
+
+
+def handler500(request, *args, **kwargs):
+    return render(request, "500.html")
 
 
 # EXTERNAL APPS URLS
@@ -39,9 +47,7 @@ urlpatterns = [
 
 # universal urls
 urlpatterns += [
-    path('under-construction/', TemplateView.as_view(template_name='under-construction.html')),  # use: for page under-construction
-    path('404/', TemplateView.as_view(template_name='404.html')),  # use: for page 404
-    path('500/', TemplateView.as_view(template_name='500.html')),  # use: for page 500
+    path('under-construction/', TemplateView.as_view(template_name='under-construction.html')),
 ]
 
 # your apps urls
