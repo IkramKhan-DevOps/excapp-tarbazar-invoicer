@@ -1,18 +1,22 @@
 from django.urls import path
 from .views import (
     DashboardView,
-    UserListView, UserPasswordResetView, UserDetailView, UserUpdateView
+    ProductListView, ProductCreateView, ProductDeleteView, ProductUpdateView,
+    InvoiceListView, InvoiceCreateView, InvoiceDeleteView, InvoiceUpdateView,
 )
-
 
 app_name = 'admins'
 urlpatterns = [
 
     path('', DashboardView.as_view(), name='dashboard'),
 
-    path('user/', UserListView.as_view(), name='user-list'),
-    path('user/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
-    path('user/<int:pk>/change/', UserUpdateView.as_view(), name='user-update'),
-    path('user/<int:pk>/password/reset/', UserPasswordResetView.as_view(), name='user-password-reset-view'),
+    path('product/', ProductListView.as_view(), name='product-list'),
+    path('product/add/', ProductCreateView.as_view(), name='product-add'),
+    path('product/<int:pk>/change/', ProductUpdateView.as_view(), name='product-update'),
+    path('product/<int:pk>/delete/', ProductDeleteView.as_view(), name='product-delete'),
 
+    path('invoice/', InvoiceListView.as_view(), name='invoice-list'),
+    path('invoice/add/', InvoiceCreateView.as_view(), name='invoice-add'),
+    path('invoice/<int:pk>/change/', InvoiceUpdateView.as_view(), name='invoice-update'),
+    path('invoice/<int:pk>/delete/', InvoiceDeleteView.as_view(), name='invoice-delete'),
 ]

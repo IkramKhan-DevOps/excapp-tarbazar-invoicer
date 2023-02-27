@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+
+{% block subtitle %}
+    Invoice
+{% endblock %}
+
+{% block page_heading %}
+    Invoice
+{% endblock %}
+
+{% block page_heading_right %}
+    <a href="{% url 'admins:invoice-add' %}" class="btn btn-success">
+            <i class="fa fa-plus"></i> New Invoice
+        </a>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+
+                    {% if object_list %}
+                        <div class="-0 table-responsive">
+
+                            <table class="table table-bordered table-hover mb-0">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Customer</th>
+                                    <th>VAT</th>
+                                    <th>Total</th>
+                                    <th>Grand Total</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                    <th>-</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for object in object_list %}
+                                    <tr>
+                                        <td>{{ object.id }}</td>
+                                        <td>
+                                            <b>{{ object.customer_name }}</b>
+                                        </td>
+                                        <td>{{ object.vat }}</td>
+                                        <td>{{ object.total }}</td>
+                                        <td>{{ object.grand_total }}</td>
+                                        <td>
+                                            {% if is_active %}
+                                                <b><i class="fa fa-check-circle text-success"></i></b>
+                                            {% else %}
+                                                <b><i class="fa fa-times-circle text-danger"></i></b>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ object.created_on }}</td>
+                                        <td>
+                                            <a href="{% url 'admins:invoice-update' object.pk %}"><b><i class="fa fa-edit"></i> Edit</b></a>&nbsp;&nbsp;
+                                            <a href="{% url 'admins:invoice-delete' object.pk %}" class="text-danger"><b><i class="fa fa-trash"></i> Delete</b></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="mb-0"><b class="text-danger">No objects available.</b></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

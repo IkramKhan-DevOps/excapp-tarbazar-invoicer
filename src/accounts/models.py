@@ -40,6 +40,9 @@ class User(AbstractUser):
         self.profile_image.delete(save=True)
         super(User, self).delete(*args, **kwargs)
 
+    def get_name_or_username(self):
+        return f'{self.first_name} {self.last_name}' if self.first_name or self.last_name else self.username
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL, dispatch_uid="user_registered")
 def on_user_registration(sender, instance, created, **kwargs):

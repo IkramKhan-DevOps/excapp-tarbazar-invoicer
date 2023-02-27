@@ -14,15 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', admin('blog.urls'))
 """
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
-from core.settings import ENVIRONMENT
+from django.views.static import serve
+
+from core.settings import ENVIRONMENT, MEDIA_ROOT, STATIC_ROOT
+
+
+def home_view(request):
+    return redirect("accounts:cross-auth")
 
 
 # EXTERNAL APPS URLS
 urlpatterns = [
 
     # DJANGO URLS > remove in extreme security
+    path('', home_view, name='home'),
     path('admin/', admin.site.urls),
 
     # API URLS
@@ -38,9 +46,13 @@ urlpatterns += [
 
 # your apps urls
 urlpatterns += [
-    # path('', include('src.website.urls', namespace='website')),
     path('accounts/', include('src.accounts.urls', namespace='accounts')),
     path('admins/', include('src.administration.admins.urls', namespace='admins')),
+]
+
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),
 ]
 
 if ENVIRONMENT != 'server':

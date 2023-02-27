@@ -13,6 +13,7 @@ from django.views.generic import (
 # from faker_data import initialization
 from src.accounts.models import User
 from src.administration.admins.filters import UserFilter
+from src.administration.admins.models import Product, Invoice
 
 admin_decorators = [login_required, user_passes_test(lambda u: u.is_superuser)]
 
@@ -94,3 +95,62 @@ class UserPasswordResetView(View):
             form.save(commit=True)
             messages.success(request, f"{user.get_full_name()}'s password changed successfully.")
         return render(request, 'admins/admin_password_reset.html', {'form': form})
+
+
+""" PRODUCTS """
+
+
+@method_decorator(admin_decorators, name='dispatch')
+class ProductListView(ListView):
+    queryset = Product.objects.all()
+
+
+@method_decorator(admin_decorators, name='dispatch')
+class ProductCreateView(CreateView):
+    model = Product
+    fields = '__all__'
+    success_url = reverse_lazy('admins:product-list')
+
+
+@method_decorator(admin_decorators, name='dispatch')
+class ProductUpdateView(UpdateView):
+    model = Product
+    fields = '__all__'
+    success_url = reverse_lazy('admins:product-list')
+
+
+@method_decorator(admin_decorators, name='dispatch')
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('admins:product-list')
+
+
+""" INVOICES """
+
+
+@method_decorator(admin_decorators, name='dispatch')
+class InvoiceListView(ListView):
+    queryset = Invoice.objects.all()
+
+
+@method_decorator(admin_decorators, name='dispatch')
+class InvoiceCreateView(CreateView):
+    model = Invoice
+    fields = '__all__'
+    success_url = reverse_lazy('admins:invoice-list')
+
+
+@method_decorator(admin_decorators, name='dispatch')
+class InvoiceUpdateView(UpdateView):
+    model = Invoice
+    fields = '__all__'
+    success_url = reverse_lazy('admins:invoice-list')
+
+
+@method_decorator(admin_decorators, name='dispatch')
+class InvoiceDeleteView(DeleteView):
+    model = Invoice
+    success_url = reverse_lazy('admins:invoice-list')
+
+
+
