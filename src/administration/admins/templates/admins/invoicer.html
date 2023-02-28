@@ -23,7 +23,7 @@
 
 {% block content %}
     <form method="post">
-    {% csrf_token %}
+        {% csrf_token %}
         <div class="row justify-content-center">
 
 
@@ -51,7 +51,7 @@
 
                     <div class="card-body">
                         <div class="table-responsive repeater">
-                            <table class="table table-borderless table-hover">
+                            <table class="table table-bordered table-hover">
                                 <thead class="thead-light">
                                 <tr>
                                     <th>SN0</th>
@@ -68,9 +68,33 @@
                                 <tbody data-repeater-list="group-a" id="products-list">
 
                                 </tbody>
+                                <tfoot class="">
+                                <tr class="">
+                                    <td colspan="7" class="text-right">
+                                        <h5 class="mb-0 font-weight-bolder">Total</h5>
+                                    </td>
+                                    <td colspan="2" class="text-right">
+                                        <h5 class="mb-0" id="total">00</h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        <h5 class="mb-0 font-weight-bolder">VAT 15%</h5>
+                                    </th>
+                                    <th colspan="2" class="text-right">
+                                        <h5 class="mb-0" id="vat-total">00</h5>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="7" class="text-right">
+                                        <h5 class="mb-0 font-weight-bolder">Grand Total</h5>
+                                    </th>
+                                    <th colspan="2" class="text-right">
+                                        <h5 class="m-0" id="grand-total">00</h5>
+                                    </th>
+                                </tr>
+                                </tfoot>
                             </table>
-                            <input data-repeater-create="" type="button" class="btn btn-success mt-3 mt-lg-0"
-                                   value="Add">
                         </div>
                     </div>
                 </div>
@@ -86,8 +110,9 @@
                     </div>
                     <div class="card-body border-bottom">
                         <div class="mb-3 mb-3">
-                            <label class="form-label" for="customer_name">Customer Name</label>
+                            <label class="form-label" for="customer_name">Customer Name <span>*</span></label>
                             <input id="customer_name" class="form-control form-control" type="text" name="customer_name"
+                                   required
                                    placeholder="Rashid Mehmood">
                         </div>
                         <div class="mb-3 mb-3">
@@ -148,15 +173,26 @@
 {% block js_code %}
     <script>
 
-        let current;
 
         $('#search').keyup(function () {
             let search = $('#search').val();
-            if (search != '') {
+            if (search !== '') {
                 searchproducts(search);
             } else {
                 $('#searchlist-products').html('');
             }
+        });
+
+        $('#products-list #p-qty').keyup(function () {
+            totalling();
+        });
+
+        $('#products-list #p-vat').change(function () {
+            totalling();
+        });
+
+        $('#products-list #p-amount').change(function () {
+            totalling();
         });
 
         function searchproducts(search) {
@@ -175,14 +211,14 @@
             if (isproductexistsincart(this.id) === false) {
 
                 let html = `
-                           <tr data-repeater-item="" id="p-div" data-item-id="">
+                           <tr data-repeater-item="" id="${this.id}">
                                 <th id="p-id">#${this.id}</th>
                                 <td>${$(this).text()}</td>
                                 <th id="p-code">${$(this).data('code')}</th>
                                 <td>${$(this).data('rate')}</td>
-                                <td><input type="text" size="3" placeholder="0" id="p-qty" value="1" name="p-qty"></td>
-                                <td><input type="text" size="3" placeholder="0" value="${$(this).data('vat')}" id="p-vat" name="p-vat"></td>
-                                <td><input type="text" size="3" placeholder="0" id="p-amount" name="p-amount"></td>
+                                <td><input type="number" required style="width: 40px;" placeholder="0" id="p-qty" value="1" name="p-qty"></td>
+                                <td><input type="number" required style="width: 80px;" placeholder="0" value="${$(this).data('vat')}" id="p-vat" name="p-vat"></td>
+                                <td><input type="number" required style="width: 80px;" placeholder="0" id="p-amount" name="p-amount" value="1"></td>
                                 <td hidden><input type="text" size="3" hidden placeholder="0" id="p-id" name="p-id" value="${this.id}"></td>
                                 <th id="p-net">00</th>
                                 <th>
@@ -191,9 +227,11 @@
                                 </th>
                             </tr>
 `
+
                 $('#products-list').append(html);
             }
             $('#searchlist-products').html('');
+            totalling();
         });
 
         function isproductexistsincart(id) {
@@ -205,6 +243,27 @@
                 }
             });
             return flag;
+        }
+
+        function totalling() {
+            let _total = 0;
+            let _vat = 0;
+            let _grand_total = 0;
+
+            $('#products-list > tr').each(function () {
+                let id = '#' + $(this).attr('id');
+                let amount = parseFloat($(id + ' #p-amount').val());
+                let vat = parseFloat($(id + ' #p-vat').val());
+                let qty = parseFloat($(id + ' #p-qty').val());
+                let net = qty * amount
+                $('#p-net').text(net);
+
+                _total += net;
+            });
+
+            $('#total').text(_total);
+            $('#grand-total').text(_total);
+            $('#vat-total').text(_total);
         }
 
 
