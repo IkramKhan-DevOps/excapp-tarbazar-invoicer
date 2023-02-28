@@ -35,8 +35,8 @@ class DashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
-        # context = calculate_statistics(context)
-        # initialization(init=False, mid=False, end=False)
+        context['products'] = Product.objects.count()
+        context['invoices'] = Invoice.objects.count()
         return context
 
 

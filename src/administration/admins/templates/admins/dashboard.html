@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load cool_num %}
 {% load humanize %}
 
 {% block subtitle %} {{ request.user }} {% endblock %}
@@ -14,13 +15,13 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-10">
                                     <div class="media">
                                         <div class="mr-3">
 
                                             {% if request.user.profile_image %}
                                                 <img src="{{ request.user.profile_image.url }}"
-                                                 alt="" class="avatar-md rounded-circle img-thumbnail">
+                                                     alt="" class="avatar-md rounded-circle img-thumbnail">
                                             {% else %}
                                                 <img src="{% static 'core/images/base/no-user.png' %}"
                                                      alt="" class="avatar-md rounded-circle img-thumbnail">
@@ -32,6 +33,27 @@
                                                 <p class="mb-1">Welcome to administration</p>
                                                 <h5 class="mb-1">{{ request.user.get_name_or_username }}</h5>
                                                 <p class="mb-0 font-weight-bolder">ADMIN ACCOUNT</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 align-self-end">
+                                    <div class="text-lg-right mt-4 mt-lg-0">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div>
+                                                    <p class="text-muted text-truncate mb-2"><i
+                                                            class="fa fa-chart-bar"></i> Products</p>
+                                                    <h5 class="mb-0">{{ products|cool_num }}</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div>
+                                                    <p class="text-muted text-truncate mb-2"><i
+                                                            class="fa fa-print"></i> Invoices
+                                                    </p>
+                                                    <h5 class="mb-0">{{ invoices|cool_num }}</h5>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
