@@ -1,22 +1,20 @@
 <p>
-  <a href="https://exarth.com/">
-  <img src="https://exarth.com/static/exarth/theme/logo-red-1000.svg" height="150">
+  <a href="https://tarbazarinvoicer.pythonanywhere.com/">
+  <img src="https://tarbazarinvoicer.pythonanywhere.com/static/core/images/logos/logo-red.png" height="150">
   </a>
 </p>
 <hr>
 
-# PROJECT NAME 😕
+# Tarbazar Invoicer 😕
 
-_application tagline here_
+_Fast and easy invoice creation for small businesses_
 
 application detailed down description here
 
 # Applications
 
-1. Website
-2. Administration
-3. Staff Management
-4. Root Administration
+1. Administration
+2. Root Administration
 
 # Tools and Technologies
 
@@ -26,7 +24,7 @@ application detailed down description here
 | Frontend  | Html, Css, Javascript, JQuery, Ajax, Jinja    |
 | Backend   | Django, Django-Rest-Framework``               |
 | Databases | SQLite, PostGre                               |
-| Server    | Linux based ubuntu server (aws/digital ocean) |
+| Server    | pythonanywhere.com                            |
 
 # Development Phases
 
@@ -42,7 +40,9 @@ application detailed down description here
 
 1. [ ]  Authentication and Authorization
 2. [ ]  Access and Permission Control System
-3. [ ]  Notification Alerts and POP-ups
+3. [ ]  Products Management
+4. [ ]  Invoice Management
+5. [ ]  Invoice Generator
 
 # Update 1 (0.1)
 
@@ -55,6 +55,11 @@ Please check the detailed down requirements here wrt iterations
 1. [ ]  Login
 2. [ ]  Signup
 3. [ ]  Dashboard
+4. [ ]  Products Management
+5. [ ]  Invoice Management
+6. [ ]  Invoice Generator
+7. [ ]  QR Code
+8. [ ]  PDF
 
 ### Non-Functional
 
