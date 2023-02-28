@@ -22,113 +22,119 @@
 
 
 {% block content %}
+    <form method="post">
+    {% csrf_token %}
+        <div class="row justify-content-center">
 
-    <div class="row justify-content-center">
 
-        {# LEFT DIV #}
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-body border-bottom">
-                    <div class="row">
-                        <div class="col">
-                            <p class="mb-0 card-title">Product List</p>
-                        </div>
-                        <div class="col">
-                            <div class="position-relative">
-                                <input type="search" name="search" id="search" placeholder="Product Name"
-                                       class="form-control form-control-sm"
-                                >
-                                <ul id="searchlist-products"
-                                    class="list-unstyled border border-top-0 w-100 bg-white position-absolute">
+            {# LEFT DIV #}
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="card-body border-bottom">
+                        <div class="row">
+                            <div class="col">
+                                <p class="mb-0 card-title">Product List</p>
+                            </div>
+                            <div class="col">
+                                <div class="position-relative">
+                                    <input type="search" name="search" id="search" placeholder="Product Name"
+                                           class="form-control form-control-sm"
+                                    >
+                                    <ul id="searchlist-products"
+                                        class="list-unstyled border border-top-0 w-100 bg-white position-absolute">
 
-                                </ul>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive repeater">
+                            <table class="table table-borderless table-hover">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th>SN0</th>
+                                    <th>Product Name</th>
+                                    <th>Code</th>
+                                    <th>Rate</th>
+                                    <th>Quantity</th>
+                                    <th>VAT</th>
+                                    <th>Amount</th>
+                                    <th>Net</th>
+                                    <th>-</th>
+                                </tr>
+                                </thead>
+                                <tbody data-repeater-list="group-a" id="products-list">
+
+                                </tbody>
+                            </table>
+                            <input data-repeater-create="" type="button" class="btn btn-success mt-3 mt-lg-0"
+                                   value="Add">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# RIGHT DIV #}
+            <div class="col-sm-4">
+
+                {# COMPANY AND CLIENT DATA #}
+                <div class="card">
+                    <div class="card-body border-bottom">
+                        <p class="mb-0 card-title">Customer and Company</p>
+                    </div>
+                    <div class="card-body border-bottom">
+                        <div class="mb-3 mb-3">
+                            <label class="form-label" for="customer_name">Customer Name</label>
+                            <input id="customer_name" class="form-control form-control" type="text" name="customer_name"
+                                   placeholder="Rashid Mehmood">
+                        </div>
+                        <div class="mb-3 mb-3">
+                            <label class="form-label" for="customer_name">Address</label>
+                            <input id="address" class="form-control form-control" type="text" name="address"
+                                   placeholder="House #000 Street 01902 - City Country">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 mb-3">
+                            <label class="form-label" for="company_name">Company Name</label>
+                            <input id="company_name" class="form-control form-control" type="text" name="company_name"
+                                   placeholder="Tarbazar Pvt Ltd">
+                        </div>
+                        <div class="mb-3 mb-3">
+                            <label class="form-label" for="company_description">Company Description</label>
+                            <textarea placeholder="Provide description if you want to place it on receipt"
+                                      id="company_description" class="form-control form-control"
+                                      name="company_description"
+                                      rows="4"></textarea>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="card-body">
-                    <div class="table-responsive repeater">
-                        <table class="table table-borderless table-hover">
-                            <thead class="thead-light">
-                            <tr>
-                                <th>SN0</th>
-                                <th>Product Name</th>
-                                <th>Code</th>
-                                <th>Rate</th>
-                                <th>Quantity</th>
-                                <th>VAT</th>
-                                <th>Amount</th>
-                                <th>Net</th>
-                                <th>-</th>
-                            </tr>
-                            </thead>
-                            <tbody data-repeater-list="group-a" id="products-list">
+                {# SUBMISSION DATA #}
+                <div class="card">
+                    <div class="card-body border-bottom">
+                        <p class="mb-0 card-title">Submission</p>
+                    </div>
+                    <div class="card-body">
 
-                            </tbody>
-                        </table>
-                        <input data-repeater-create="" type="button" class="btn btn-success mt-3 mt-lg-0" value="Add">
+                        <p class="font-weight-bolder text-secondary">
+                            This action will generate invoice, <code>QR Code</code> and redirect you to invoice print
+                            page
+                            make sure all the given data
+                            is correct and calculated accurately.
+                        </p>
+
+                        <button class="btn btn-success">
+                            <i class="fa fa-check"></i> Submit
+                        </button>
+
                     </div>
                 </div>
             </div>
         </div>
-
-        {# RIGHT DIV #}
-        <div class="col-sm-4">
-
-            {# COMPANY AND CLIENT DATA #}
-            <div class="card">
-                <div class="card-body border-bottom">
-                    <p class="mb-0 card-title">Customer and Company</p>
-                </div>
-                <div class="card-body border-bottom">
-                    <div class="mb-3 mb-3">
-                        <label class="form-label" for="customer_name">Customer Name</label>
-                        <input id="customer_name" class="form-control form-control" type="text" name="customer_name"
-                               placeholder="Rashid Mehmood">
-                    </div>
-                    <div class="mb-3 mb-3">
-                        <label class="form-label" for="customer_name">Address</label>
-                        <input id="customer_name" class="form-control form-control" type="text" name="customer_name"
-                               placeholder="House #000 Street 01902 - City Country">
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3 mb-3">
-                        <label class="form-label" for="company_name">Company Name</label>
-                        <input id="company_name" class="form-control form-control" type="text" name="company_name"
-                               placeholder="Tarbazar Pvt Ltd">
-                    </div>
-                    <div class="mb-3 mb-3">
-                        <label class="form-label" for="company_description">Company Description</label>
-                        <textarea placeholder="Provide description if you want to place it on receipt"
-                                  id="company_description" class="form-control form-control" name="company_description"
-                                  rows="4"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            {# SUBMISSION DATA #}
-            <div class="card">
-                <div class="card-body border-bottom">
-                    <p class="mb-0 card-title">Submission</p>
-                </div>
-                <div class="card-body">
-
-                    <p class="font-weight-bolder text-secondary">
-                        This action will generate invoice, <code>QR Code</code> and redirect you to invoice print page
-                        make sure all the given data
-                        is correct and calculated accurately.
-                    </p>
-
-                    <button class="btn btn-success">
-                        <i class="fa fa-check"></i> Submit
-                    </button>
-
-                </div>
-            </div>
-        </div>
-    </div>
+    </form>
 
 {% endblock %}
 
@@ -173,10 +179,11 @@
                                 <th id="p-id">#${this.id}</th>
                                 <td>${$(this).text()}</td>
                                 <th id="p-code">${$(this).data('code')}</th>
-                                <td><input type="text" size="3" placeholder="0" value="${$(this).data('rate')}" id="p-rate"></td>
-                                <td><input type="text" size="3" placeholder="0" id="p-qty" value="1"></td>
-                                <td><input type="text" size="3" placeholder="0" value="${$(this).data('vat')}" id="p-vat"></td>
-                                <td><input type="text" size="3" placeholder="0" id="p-amount"></td>
+                                <td>${$(this).data('rate')}</td>
+                                <td><input type="text" size="3" placeholder="0" id="p-qty" value="1" name="p-qty"></td>
+                                <td><input type="text" size="3" placeholder="0" value="${$(this).data('vat')}" id="p-vat" name="p-vat"></td>
+                                <td><input type="text" size="3" placeholder="0" id="p-amount" name="p-amount"></td>
+                                <td hidden><input type="text" size="3" hidden placeholder="0" id="p-id" name="p-id" value="${this.id}"></td>
                                 <th id="p-net">00</th>
                                 <th>
                                     <button class="btn btn-sm btn-danger" data-repeater-delete="" value="Delete"><i
@@ -199,6 +206,7 @@
             });
             return flag;
         }
+
 
     </script>
 {% endblock %}

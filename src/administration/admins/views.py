@@ -13,7 +13,7 @@ from django.views.generic import (
 # from faker_data import initialization
 from src.accounts.models import User
 from src.administration.admins.filters import UserFilter, ProductFilter
-from src.administration.admins.models import Product, Invoice
+from src.administration.admins.models import Product, Invoice, InvoiceItem
 
 admin_decorators = [login_required, user_passes_test(lambda u: u.is_superuser)]
 
@@ -172,4 +172,45 @@ class InvoicerView(View):
         return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
-        pass
+
+        data = dict(request.POST)
+        customer_name = data['customer_name'][0]
+        address = data['address'][0]
+        company_name = data['company_name'][0]
+        company_description = data['company_description'][0]
+
+        if not request.POST.get('p-id'):
+            messages.error(request, "No products selected for now.")
+
+        else:
+            products_qty = data['p-qty']
+            products_id = data['p-id']
+            products_vat = data['p-vat']
+            products_amount = data['p-amount']
+            size = len(products_id)
+
+            total, vat, grand_total = 0, 0, 0
+            invoice = Invoice(
+                customer_name=customer_name,
+                address=address,
+                company_name=company_name,
+                company_description=company_description,
+            )
+
+            invoice.total = total
+            invoice.vat = vat
+            invoice.grand_total = grand_total
+            invoice.save()
+
+            for index in range(size-1):
+                product = Product.objects.get(pk=products_id[index])
+                invoice_item = InvoiceItem(
+                    invoice=invoice, product=product,
+                    amount=products_amount[index], net_amount=00,
+                    quantity=products_qty[index]
+                ).save()
+
+
+            messages.success(request, "Invoice created successfully.")
+
+        return render(request, self.template_name)
