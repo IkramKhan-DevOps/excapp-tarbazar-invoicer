@@ -61,7 +61,7 @@ urlpatterns += [
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),
 ]
 
-if ENVIRONMENT != 'server':
-    urlpatterns += [
-        path("__reload__/", include("django_browser_reload.urls")),
-    ]
+# if ENVIRONMENT != 'server':
+#     urlpatterns += [
+#         path("__reload__/", include("django_browser_reload.urls")),
+#     ]
