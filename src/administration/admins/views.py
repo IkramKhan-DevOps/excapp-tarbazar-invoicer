@@ -210,7 +210,6 @@ class InvoicerView(View):
                     quantity=products_qty[index]
                 ).save()
 
-
             messages.success(request, "Invoice created successfully.")
 
         return render(request, self.template_name)

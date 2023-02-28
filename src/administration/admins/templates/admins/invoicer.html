@@ -70,27 +70,30 @@
                                 </tbody>
                                 <tfoot class="">
                                 <tr class="">
-                                    <td colspan="7" class="text-right">
+                                    <td colspan="8" class="text-right">
                                         <h5 class="mb-0 font-weight-bolder">Total</h5>
                                     </td>
-                                    <td colspan="2" class="text-right">
-                                        <h5 class="mb-0" id="total">00</h5>
+                                    <td colspan="0" class="text-right">
+                                        <input value="00" class="form-control form-control-sm" style="width: 50px;"
+                                               id="total" name="total" contentEditable="false">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th colspan="7" class="text-right">
+                                    <th colspan="8" class="text-right">
                                         <h5 class="mb-0 font-weight-bolder">VAT 15%</h5>
                                     </th>
                                     <th colspan="2" class="text-right">
-                                        <h5 class="mb-0" id="vat-total">00</h5>
+                                        <input value="00" class="form-control form-control-sm" id="vat-total"
+                                               name="vat-total" style="width: 50px;" contentEditable="false">
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th colspan="7" class="text-right">
+                                    <th colspan="8" class="text-right">
                                         <h5 class="mb-0 font-weight-bolder">Grand Total</h5>
                                     </th>
                                     <th colspan="2" class="text-right">
-                                        <h5 class="m-0" id="grand-total">00</h5>
+                                        <input value="00" class="form-control form-control-sm" id="grand-total"
+                                               name="grand-total" style="width: 50px;" contentEditable="false">
                                     </th>
                                 </tr>
                                 </tfoot>
@@ -174,43 +177,42 @@
     <script>
 
 
-        $('#search').keyup(function () {
-            let search = $('#search').val();
-            if (search !== '') {
-                searchproducts(search);
-            } else {
-                $('#searchlist-products').html('');
-            }
-        });
+        $(document).ready(function () {
 
-        $('#products-list #p-qty').keyup(function () {
-            totalling();
-        });
-
-        $('#products-list #p-vat').change(function () {
-            totalling();
-        });
-
-        $('#products-list #p-amount').change(function () {
-            totalling();
-        });
-
-        function searchproducts(search) {
-            $.get('/admins/api/product/?name=' + search, function () {
-            }).done(function (data, status) {
-                if (status === 'success') {
+            $('#search').keyup(function () {
+                let search = $('#search').val();
+                if (search !== '') {
+                    searchproducts(search);
+                } else {
                     $('#searchlist-products').html('');
-                    for (let i = 0; i < data.length; i++) {
-                        $('#searchlist-products').append('<li class="px-2 py-1" data-code="' + data[i].code + '" data-vat="' + data[i].vat + '" data-rate="' + data[i].rate + '" id="' + data[i].id + '">' + data[i].name + '</li>');
-                    }
                 }
             });
-        }
 
-        $('#searchlist-products').on('click', 'li', function () {
-            if (isproductexistsincart(this.id) === false) {
+            $('#products-list').on('keyup', 'input', function () {
+                totalling();
+            });
 
-                let html = `
+            $('#products-list').on('click', '#delete-btn', function () {
+                $(this).parent().parent().remove();
+                totalling();
+            });
+
+            function searchproducts(search) {
+                $.get('/admins/api/product/?name=' + search, function () {
+                }).done(function (data, status) {
+                    if (status === 'success') {
+                        $('#searchlist-products').html('');
+                        for (let i = 0; i < data.length; i++) {
+                            $('#searchlist-products').append('<li class="px-2 py-1" data-code="' + data[i].code + '" data-vat="' + data[i].vat + '" data-rate="' + data[i].rate + '" id="' + data[i].id + '">' + data[i].name + '</li>');
+                        }
+                    }
+                });
+            }
+
+            $('#searchlist-products').on('click', 'li', function () {
+                if (isproductexistsincart(this.id) === false) {
+
+                    let html = `
                            <tr data-repeater-item="" id="${this.id}">
                                 <th id="p-id">#${this.id}</th>
                                 <td>${$(this).text()}</td>
@@ -222,50 +224,52 @@
                                 <td hidden><input type="text" size="3" hidden placeholder="0" id="p-id" name="p-id" value="${this.id}"></td>
                                 <th id="p-net">00</th>
                                 <th>
-                                    <button class="btn btn-sm btn-danger" data-repeater-delete="" value="Delete"><i
-                                            class="fa fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-danger" id="delete-btn" data-id="${this.id}">
+                                       <i class="fa fa-trash"></i>
+                                    </button>
                                 </th>
                             </tr>
 `
 
-                $('#products-list').append(html);
-            }
-            $('#searchlist-products').html('');
-            totalling();
-        });
-
-        function isproductexistsincart(id) {
-            let flag = false;
-            $('#products-list > tr').each(function () {
-                if ($(this).data('item-id') === id) {
-                    alert('Product Already exists');
-                    flag = true;
+                    $('#products-list').append(html);
                 }
-            });
-            return flag;
-        }
-
-        function totalling() {
-            let _total = 0;
-            let _vat = 0;
-            let _grand_total = 0;
-
-            $('#products-list > tr').each(function () {
-                let id = '#' + $(this).attr('id');
-                let amount = parseFloat($(id + ' #p-amount').val());
-                let vat = parseFloat($(id + ' #p-vat').val());
-                let qty = parseFloat($(id + ' #p-qty').val());
-                let net = qty * amount
-                $('#p-net').text(net);
-
-                _total += net;
+                $('#searchlist-products').html('');
+                totalling();
             });
 
-            $('#total').text(_total);
-            $('#grand-total').text(_total);
-            $('#vat-total').text(_total);
-        }
+            function isproductexistsincart(id) {
+                let flag = false;
+                $('#products-list > tr').each(function () {
+                    if ($(this).attr('id') === id) {
+                        alert('Product Already exists');
+                        flag = true;
+                    }
+                });
+                return flag;
+            }
 
+            function totalling() {
+                let _total = 0;
+                let _vat = 0;
+                let _grand_total = 0;
+
+                $('#products-list > tr').each(function () {
+                    let id = '#' + $(this).attr('id');
+                    let amount = parseFloat($(id + ' #p-amount').val());
+                    let vat = parseFloat($(id + ' #p-vat').val());
+                    let qty = parseFloat($(id + ' #p-qty').val());
+                    let net = qty * amount
+                    $(id + ' #p-net').text(net);
+
+                    _total += net;
+                });
+
+                $('#total').val(_total);
+                $('#grand-total').val(_total);
+                $('#vat-total').val(_total);
+            }
+
+        });
 
     </script>
 {% endblock %}
