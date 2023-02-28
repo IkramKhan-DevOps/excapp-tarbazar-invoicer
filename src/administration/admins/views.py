@@ -165,4 +165,11 @@ class InvoiceDeleteView(DeleteView):
     success_url = reverse_lazy('admins:invoice-list')
 
 
+class InvoicerView(View):
+    template_name = "admins/invoicer.html"
 
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, *args, **kwargs):
+        pass

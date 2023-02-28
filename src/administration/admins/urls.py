@@ -5,6 +5,7 @@ from .views import (
     DashboardView,
     ProductListView, ProductCreateView, ProductDeleteView, ProductUpdateView,
     InvoiceListView, InvoiceCreateView, InvoiceDeleteView, InvoiceUpdateView,
+    InvoicerView
 )
 
 app_name = 'admins'
@@ -22,5 +23,5 @@ urlpatterns = [
     path('invoice/<int:pk>/change/', InvoiceUpdateView.as_view(), name='invoice-update'),
     path('invoice/<int:pk>/delete/', InvoiceDeleteView.as_view(), name='invoice-delete'),
 
-    path('invoicer', TemplateView.as_view(template_name='under-construction.html'), name='invoicer')
+    path('invoicer', InvoicerView.as_view(), name='invoicer')
 ]
