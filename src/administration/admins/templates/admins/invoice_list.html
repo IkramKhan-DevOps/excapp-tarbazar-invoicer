@@ -47,6 +47,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Customer</th>
+                                        <th>Company</th>
                                         <th>VAT</th>
                                         <th>Total</th>
                                         <th>Grand Total</th>
@@ -62,6 +63,15 @@
                                             <td>
                                                 <b>{{ object.customer_name }}</b>
                                             </td>
+                                            <td>
+                                                <b>
+                                                    {% if object.company_name %}
+                                                        {{ object.company_name }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </b>
+                                            </td>
                                             <td>{{ object.vat }}</td>
                                             <td>{{ object.total }}</td>
                                             <td>{{ object.grand_total }}</td>
@@ -74,8 +84,10 @@
                                             </td>
                                             <td>{{ object.created_on }}</td>
                                             <td>
-                                                <a href="{% url 'admins:invoice-detail' object.pk %}"><b><i class="fa fa-print"></i> Print</b></a>&nbsp;&nbsp;
-                                                <a href="{% url 'admins:invoice-delete' object.pk %}" class="text-danger"><b><i class="fa fa-trash"></i> Delete</b></a>
+                                                <a href="{% url 'admins:invoice-detail' object.pk %}"><b><i
+                                                        class="fa fa-print"></i> Print</b></a>&nbsp;&nbsp;
+                                                <a href="{% url 'admins:invoice-delete' object.pk %}"
+                                                   class="text-danger"><b><i class="fa fa-trash"></i> Delete</b></a>
                                             </td>
                                         </tr>
                                     {% endfor %}
