@@ -18,3 +18,4 @@ django-browser-reload
 
 djangorestframework~=3.12.4
 DateTime~=5.0
+qrcode

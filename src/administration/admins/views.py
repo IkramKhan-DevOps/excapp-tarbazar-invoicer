@@ -1,3 +1,8 @@
+from io import BytesIO
+
+import qrcode as qc
+from PIL import ImageDraw, Image
+from django.core.files import File
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AdminPasswordChangeForm
@@ -10,6 +15,7 @@ from django.views.generic import (
     TemplateView, ListView, DeleteView, DetailView, UpdateView, CreateView
 )
 
+from core.settings import BASE_URL
 # from faker_data import initialization
 from src.accounts.models import User
 from src.administration.admins.filters import UserFilter, ProductFilter, InvoiceFilter
@@ -171,7 +177,6 @@ class InvoiceUpdateView(UpdateView):
     success_url = reverse_lazy('admins:invoice-list')
 
 
-@method_decorator(admin_decorators, name='dispatch')
 class InvoiceDetailView(DetailView):
     model = Invoice
 
@@ -182,6 +187,7 @@ class InvoiceDeleteView(DeleteView):
     success_url = reverse_lazy('admins:invoice-list')
 
 
+@method_decorator(admin_decorators, name='dispatch')
 class InvoicerView(View):
     template_name = "admins/invoicer.html"
 
@@ -218,6 +224,16 @@ class InvoicerView(View):
             invoice.vat = data['vat-total'][0]
             invoice.grand_total = data['grand-total'][0]
             invoice.save()
+
+            qr_code_img = qc.make(f"{BASE_URL}/admins/invoice/{invoice.pk}/")
+            canvas = Image.new("RGB", (380, 380), "white")
+            draw = ImageDraw.Draw(canvas)
+            canvas.paste(qr_code_img)
+            buffer = BytesIO()
+            canvas.save(buffer, "PNG")
+            invoice.qr_image.delete(save=True)
+            invoice.qr_image.save(f'qr_image_{invoice.pk}.png', File(buffer), save=True)
+            canvas.close()
 
             for index in range(size):
                 product = Product.objects.get(pk=products_id[index])
