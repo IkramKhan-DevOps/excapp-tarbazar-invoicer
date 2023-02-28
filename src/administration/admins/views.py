@@ -212,7 +212,6 @@ class InvoicerView(View):
             products_amount = data['p-amount']
             size = len(products_id)
 
-            total, vat, grand_total = 0, 0, 0
             invoice = Invoice(
                 customer_name=customer_name,
                 address=address,
