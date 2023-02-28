@@ -56,10 +56,13 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
+    'rest_framework',
+
     # YOUR APPS
     'src.website.apps.WebsiteConfig',
     'src.accounts.apps.AccountsConfig',
-    'src.administration.admins.apps.AdministrationAdminConfig'
+    'src.administration.admins.apps.AdministrationAdminConfig',
+    'src.administration.admins.api.apps.AdministrationAdminAPIConfig',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

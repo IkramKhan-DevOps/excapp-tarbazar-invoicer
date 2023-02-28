@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
 
 from .views import (
@@ -24,4 +24,8 @@ urlpatterns = [
     path('invoice/<int:pk>/delete/', InvoiceDeleteView.as_view(), name='invoice-delete'),
 
     path('invoicer', InvoicerView.as_view(), name='invoicer')
+]
+
+urlpatterns += [
+    path('api/', include('src.administration.admins.api.urls'), name='api-product-list'),
 ]
