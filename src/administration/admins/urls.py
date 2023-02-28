@@ -5,7 +5,7 @@ from .views import (
     DashboardView,
     ProductListView, ProductCreateView, ProductDeleteView, ProductUpdateView,
     InvoiceListView, InvoiceCreateView, InvoiceDeleteView, InvoiceUpdateView,
-    InvoicerView
+    InvoicerView, InvoiceDetailView
 )
 
 app_name = 'admins'
@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('invoice/', InvoiceListView.as_view(), name='invoice-list'),
     path('invoice/add/', InvoiceCreateView.as_view(), name='invoice-add'),
+    path('invoice/<int:pk>/', InvoiceDetailView.as_view(), name='invoice-detail'),
     path('invoice/<int:pk>/change/', InvoiceUpdateView.as_view(), name='invoice-update'),
     path('invoice/<int:pk>/delete/', InvoiceDeleteView.as_view(), name='invoice-delete'),
 

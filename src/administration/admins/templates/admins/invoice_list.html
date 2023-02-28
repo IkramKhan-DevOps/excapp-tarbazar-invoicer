@@ -3,11 +3,11 @@
 {% load custom_tags %}
 
 {% block subtitle %}
-    Invoice
+    Invoices
 {% endblock %}
 
 {% block page_heading %}
-    Invoice
+    Invoices
 {% endblock %}
 
 {% block page_heading_right %}
@@ -29,7 +29,7 @@
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fa fa-search"></i> Search
                                 </button>
-                                <a class="btn btn-danger" href="{% url 'admins:product-list' %}">
+                                <a class="btn btn-danger" href="{% url 'admins:invoice-list' %}">
                                     <i class="fa fa-paint-brush"></i>
                                 </a>
                             </div>
@@ -74,7 +74,7 @@
                                             </td>
                                             <td>{{ object.created_on }}</td>
                                             <td>
-                                                <a href="{% url 'admins:invoicer' %}"><b><i class="fa fa-print"></i> Print</b></a>&nbsp;&nbsp;
+                                                <a href="{% url 'admins:invoice-detail' object.pk %}"><b><i class="fa fa-print"></i> Print</b></a>&nbsp;&nbsp;
                                                 <a href="{% url 'admins:invoice-delete' object.pk %}" class="text-danger"><b><i class="fa fa-trash"></i> Delete</b></a>
                                             </td>
                                         </tr>

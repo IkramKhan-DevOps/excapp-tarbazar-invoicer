@@ -38,7 +38,7 @@
                             <div class="col">
                                 <div class="position-relative">
                                     <input type="search" name="search" id="search" placeholder="Product Name"
-                                           class="form-control form-control-sm"
+                                           class="form-control form-control-sm" autofocus
                                     >
                                     <ul id="searchlist-products"
                                         class="list-unstyled border border-top-0 w-100 bg-white position-absolute">
@@ -74,7 +74,7 @@
                                         <h5 class="mb-0 font-weight-bolder">Total</h5>
                                     </td>
                                     <td colspan="0" class="text-right">
-                                        <input value="00" class="form-control form-control-sm" style="width: 50px;"
+                                        <input type="number" min="-" value="00" class="form-control form-control-sm" style="width: 100px;"
                                                id="total" name="total" contentEditable="false">
                                     </td>
                                 </tr>
@@ -83,8 +83,8 @@
                                         <h5 class="mb-0 font-weight-bolder">VAT 15%</h5>
                                     </th>
                                     <th colspan="2" class="text-right">
-                                        <input value="00" class="form-control form-control-sm" id="vat-total"
-                                               name="vat-total" style="width: 50px;" contentEditable="false">
+                                        <input min="0" type="number" value="00" class="form-control form-control-sm" id="vat-total"
+                                               name="vat-total" style="width: 100px;" contentEditable="false">
                                     </th>
                                 </tr>
                                 <tr>
@@ -92,8 +92,8 @@
                                         <h5 class="mb-0 font-weight-bolder">Grand Total</h5>
                                     </th>
                                     <th colspan="2" class="text-right">
-                                        <input value="00" class="form-control form-control-sm" id="grand-total"
-                                               name="grand-total" style="width: 50px;" contentEditable="false">
+                                        <input min="0" value="00" type="number" class="form-control form-control-sm" id="grand-total"
+                                               name="grand-total" style="width: 100px;" contentEditable="false">
                                     </th>
                                 </tr>
                                 </tfoot>
@@ -218,13 +218,13 @@
                                 <td>${$(this).text()}</td>
                                 <th id="p-code">${$(this).data('code')}</th>
                                 <td>${$(this).data('rate')}</td>
-                                <td><input type="number" required style="width: 40px;" placeholder="0" id="p-qty" value="1" name="p-qty"></td>
-                                <td><input type="number" required style="width: 80px;" placeholder="0" value="${$(this).data('vat')}" id="p-vat" name="p-vat"></td>
-                                <td><input type="number" required style="width: 80px;" placeholder="0" id="p-amount" name="p-amount" value="1"></td>
+                                <td><input type="number"  min="0" class="form-control form-control-sm" required style="width: 50px;" placeholder="0" id="p-qty" value="1" name="p-qty"></td>
+                                <td><input type="number" min="0" class="form-control form-control-sm" required style="width: 60px;" placeholder="0" value="${$(this).data('vat')}" id="p-vat" name="p-vat"></td>
+                                <td><input type="number" min="0" class="form-control form-control-sm" required style="width: 70px;" placeholder="0" id="p-amount" name="p-amount" value="1"></td>
                                 <td hidden><input type="text" size="3" hidden placeholder="0" id="p-id" name="p-id" value="${this.id}"></td>
                                 <th id="p-net">00</th>
                                 <th>
-                                    <button class="btn btn-sm btn-danger" id="delete-btn" data-id="${this.id}">
+                                    <button class="btn btn-sm text-danger bg-white" id="delete-btn" data-id="${this.id}">
                                        <i class="fa fa-trash"></i>
                                     </button>
                                 </th>
@@ -234,6 +234,7 @@
                     $('#products-list').append(html);
                 }
                 $('#searchlist-products').html('');
+                $('#search').val('');
                 totalling();
             });
 

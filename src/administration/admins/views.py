@@ -172,6 +172,11 @@ class InvoiceUpdateView(UpdateView):
 
 
 @method_decorator(admin_decorators, name='dispatch')
+class InvoiceDetailView(DetailView):
+    model = Invoice
+
+
+@method_decorator(admin_decorators, name='dispatch')
 class InvoiceDeleteView(DeleteView):
     model = Invoice
     success_url = reverse_lazy('admins:invoice-list')
