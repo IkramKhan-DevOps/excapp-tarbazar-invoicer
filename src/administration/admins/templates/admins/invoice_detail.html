@@ -25,10 +25,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="invoice-title text-center">
-                            <div class="mb-4">
-                                <img src="{% static 'core/images/logos/logo-red-1000.png' %}" alt="logo" height="50">
-                            </div>
-                            <h4 class="float-end font-size-16">Order #{{ object.pk }}</h4>
+
+                            <h4 class="float-end font-size-16">Invoice ID #{{ object.pk }}</h4>
                             {% if object.company_name %}
                                 <h3 class="float-end font-size-16">{{ object.company_name }}</h3>
                             {% endif %}
@@ -41,20 +39,26 @@
                             <div class="col-sm-6">
                                 <address>
                                     <strong>Customer:</strong><br>
-                                    {{ object.customer_name }}<br>
-                                    {{ object.address }}
-                                </address>
-                            </div>
-                            <div class="col-sm-6 text-right">
-                                <address class="mt-2 mt-sm-0">
+                                    {{ object.customer_name }}<br><br>
+
+                                    <strong>Address:</strong><br>
+                                    {% if object.address %}
+                                        {{ object.address }}
+                                    {% else %}
+                                        -
+                                    {% endif %} <br><br>
+
                                     <strong>Date:</strong><br>
                                     {{ object.created_on }}<br>
                                 </address>
                             </div>
+                            <div class="col-sm-6 text-right">
+                                {% if object.qr_image %}
+                                    <img src="{{ object.qr_image.url }}" height="200">
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="py-2 mt-3">
-                            <h3 class="font-size-15 fw-bold">Order summary</h3>
-                        </div>
+                        <hr>
                         <div class="table-responsive table-hover table-bordered">
                             <table class="table table-nowrap">
                                 <thead class="thead-light">
