@@ -44,7 +44,7 @@ application detailed down description here
 4. [ ]  Invoice Management
 5. [ ]  Invoice Generator
 
-# Update 1 (0.1)
+# Update 1 (v1.0)
 
 ## Requirements
 
