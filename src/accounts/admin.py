@@ -210,5 +210,5 @@ class UserCustomAdmin(admin.ModelAdmin):
 admin.site.register(User, UserCustomAdmin)
 
 admin.site.site_header = "Root Access"
-admin.site.site_title = "APP"
+admin.site.site_title = "Tarbazar Invoicer"
 admin.site.index_title = "Dashboard"
