@@ -12,7 +12,7 @@ from django.views.generic import (
 
 # from faker_data import initialization
 from src.accounts.models import User
-from src.administration.admins.filters import UserFilter, ProductFilter
+from src.administration.admins.filters import UserFilter, ProductFilter, InvoiceFilter
 from src.administration.admins.models import Product, Invoice, InvoiceItem
 
 admin_decorators = [login_required, user_passes_test(lambda u: u.is_superuser)]
@@ -144,6 +144,18 @@ class ProductDeleteView(DeleteView):
 class InvoiceListView(ListView):
     queryset = Invoice.objects.all()
 
+    def get_context_data(self, **kwargs):
+        context = super(InvoiceListView, self).get_context_data(**kwargs)
+        object_filter = InvoiceFilter(self.request.GET, queryset=Invoice.objects.filter())
+        context['filter_form'] = object_filter.form
+
+        paginator = Paginator(object_filter.qs, 50)
+        page_number = self.request.GET.get('page')
+        page_object = paginator.get_page(page_number)
+
+        context['object_list'] = page_object
+        return context
+
 
 @method_decorator(admin_decorators, name='dispatch')
 class InvoiceCreateView(CreateView):
@@ -197,17 +209,16 @@ class InvoicerView(View):
                 company_description=company_description,
             )
 
-            invoice.total = total
-            invoice.vat = vat
-            invoice.grand_total = grand_total
+            invoice.total = data['total'][0]
+            invoice.vat = data['vat-total'][0]
+            invoice.grand_total = data['grand-total'][0]
             invoice.save()
 
-            for index in range(size-1):
+            for index in range(size):
                 product = Product.objects.get(pk=products_id[index])
-                invoice_item = InvoiceItem(
+                InvoiceItem(
                     invoice=invoice, product=product,
-                    amount=products_amount[index], net_amount=00,
-                    quantity=products_qty[index]
+                    amount=products_amount[index], quantity=products_qty[index], vat=products_vat[index]
                 ).save()
 
             messages.success(request, "Invoice created successfully.")

@@ -48,7 +48,7 @@ class InvoiceItem(models.Model):
     invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='invoices')
     quantity = models.PositiveIntegerField(default=1)
     amount = models.FloatField(default=0)
-    net_amount = models.FloatField(default=0)
+    vat = models.FloatField(default=0)
 
     class Meta:
         ordering = ['-invoice']

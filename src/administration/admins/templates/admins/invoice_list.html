@@ -12,8 +12,8 @@
 
 {% block page_heading_right %}
     <a href="{% url 'admins:invoicer' %}" class="btn btn-success">
-            <i class="fa fa-plus"></i> New Invoice
-        </a>
+        <i class="fa fa-plus"></i> New Invoice
+    </a>
 {% endblock %}
 
 {% block content %}
@@ -21,56 +21,117 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-body">
-
-                    {% if object_list %}
-                        <div class="-0 table-responsive">
-
-                            <table class="table table-bordered table-hover mb-0">
-                                <thead class="thead-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Customer</th>
-                                    <th>VAT</th>
-                                    <th>Total</th>
-                                    <th>Grand Total</th>
-                                    <th>Status</th>
-                                    <th>Created</th>
-                                    <th>-</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for object in object_list %}
-                                    <tr>
-                                        <td>{{ object.id }}</td>
-                                        <td>
-                                            <b>{{ object.customer_name }}</b>
-                                        </td>
-                                        <td>{{ object.vat }}</td>
-                                        <td>{{ object.total }}</td>
-                                        <td>{{ object.grand_total }}</td>
-                                        <td>
-                                            {% if is_active %}
-                                                <b><i class="fa fa-check-circle text-success"></i></b>
-                                            {% else %}
-                                                <b><i class="fa fa-times-circle text-danger"></i></b>
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ object.created_on }}</td>
-                                        <td>
-                                            <a href="{% url 'admins:invoicer' %}"><b><i class="fa fa-edit"></i> View</b></a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                <div class="card-body border-bottom">
+                    <form method="get">
+                        <div class="input-group">
+                            {{ filter_form }}
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fa fa-search"></i> Search
+                                </button>
+                                <a class="btn btn-danger" href="{% url 'admins:product-list' %}">
+                                    <i class="fa fa-paint-brush"></i>
+                                </a>
+                            </div>
                         </div>
-                    {% else %}
-                        <p class="mb-0"><b class="text-danger">No objects available.</b></p>
-                    {% endif %}
+                    </form>
+                </div>
+                <div class="card-body p-0 border-bottom">
+                    <div class="card-body">
+
+                        {% if object_list %}
+                            <div class="table-responsive">
+
+                                <table class="table align-middle table-nowrap mb-0 table-hover">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer</th>
+                                        <th>VAT</th>
+                                        <th>Total</th>
+                                        <th>Grand Total</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th>-</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for object in object_list %}
+                                        <tr>
+                                            <td>#{{ object.id }}</td>
+                                            <td>
+                                                <b>{{ object.customer_name }}</b>
+                                            </td>
+                                            <td>{{ object.vat }}</td>
+                                            <td>{{ object.total }}</td>
+                                            <td>{{ object.grand_total }}</td>
+                                            <td>
+                                                {% if object.is_active %}
+                                                    <span class="badge badge-soft-success">Active</span>
+                                                {% else %}
+                                                    <span class="badge badge-soft-danger">In Active</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ object.created_on }}</td>
+                                            <td>
+                                                <a href="{% url 'admins:invoicer' %}"><b><i class="fa fa-print"></i> Print</b></a>&nbsp;&nbsp;
+                                                <a href="{% url 'admins:invoice-delete' object.pk %}" class="text-danger"><b><i class="fa fa-trash"></i> Delete</b></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="mb-0"><b class="text-danger">No objects available.</b></p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body pb-0">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="">
+                                <ul class="pagination">
+                                    {% if object_list.has_previous %}
+                                        <li>
+                            <span>
+                                <a href="{% relative_url object_list.previous_page_number 'page' request.GET.urlencode %}">
+                                    Previous&nbsp;&nbsp;
+                                </a>
+                            </span>
+                                        </li>
+                                    {% endif %}
+                                    <li class="">
+                                        <span>Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.</span>
+                                    </li>
+                                    {% if object_list.has_next %}
+                                        <li>
+                            <span>
+                                <a href="{% relative_url object_list.next_page_number 'page' request.GET.urlencode %}">
+                                    &nbsp;&nbsp;Next
+                                </a>
+                            </span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
 
+
+{% block js_code %}
+    <script>
+        $(document).ready(function () {
+
+            $('label').hide();
+            $('input').addClass('form-control');
+            $('select').addClass('form-control');
+
+        });
+    </script>
+{% endblock %}

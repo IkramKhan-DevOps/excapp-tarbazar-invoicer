@@ -14,7 +14,7 @@ class InvoiceAdmin(admin.ModelAdmin):
 
 
 class InvoiceItemAdmin(admin.ModelAdmin):
-    list_display = ['id', 'product', 'invoice', 'quantity', 'amount', 'net_amount']
+    list_display = ['id', 'product', 'invoice', 'quantity', 'amount', 'vat']
 
 
 admin.site.register(Product, ProductAdmin)

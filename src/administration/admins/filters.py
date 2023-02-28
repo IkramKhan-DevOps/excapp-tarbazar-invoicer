@@ -2,7 +2,7 @@ import django_filters
 from django.forms import TextInput
 
 from src.accounts.models import User
-from src.administration.admins.models import Product
+from src.administration.admins.models import Product, Invoice
 
 
 class UserFilter(django_filters.FilterSet):
@@ -22,6 +22,18 @@ class ProductFilter(django_filters.FilterSet):
 
     class Meta:
         model = Product
+        fields = [
+            'is_active'
+        ]
+
+
+class InvoiceFilter(django_filters.FilterSet):
+    id = django_filters.CharFilter(widget=TextInput(attrs={'placeholder': 'Invoice ID'}), lookup_expr='icontains')
+    customer_name = django_filters.CharFilter(widget=TextInput(attrs={'placeholder': 'Customer'}), lookup_expr='icontains')
+    company_name = django_filters.CharFilter(widget=TextInput(attrs={'placeholder': 'Company '}), lookup_expr='icontains')
+
+    class Meta:
+        model = Invoice
         fields = [
             'is_active'
         ]
