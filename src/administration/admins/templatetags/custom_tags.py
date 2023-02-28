@@ -12,3 +12,8 @@ def relative_url(value, field_name, urlencode=None):
         encoded_querystring = '&'.join(filtered_querystring)
         url = '{}&{}'.format(url, encoded_querystring)
     return url
+
+
+@register.simple_tag()
+def multiply(qty, price, *args, **kwargs):
+    return qty * price
