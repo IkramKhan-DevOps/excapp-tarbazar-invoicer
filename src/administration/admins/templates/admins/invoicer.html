@@ -6,6 +6,16 @@
     Invoicer
 {% endblock %}
 
+{% block css %}
+    <style>
+        #searchlist-products li:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+    </style>
+
+{% endblock %}
+
 {% block page_heading %}
     <b><i class="fa fa-print"></i> Tarbazar Invoicer.</b>
 {% endblock %}
@@ -19,7 +29,22 @@
         <div class="col-sm-8">
             <div class="card">
                 <div class="card-body border-bottom">
-                    <p class="mb-0 card-title">Product List</p>
+                    <div class="row">
+                        <div class="col">
+                            <p class="mb-0 card-title">Product List</p>
+                        </div>
+                        <div class="col">
+                            <div class="position-relative">
+                                <input type="search" name="search" id="search" placeholder="Product Name"
+                                       class="form-control form-control-sm"
+                                >
+                                <ul id="searchlist-products"
+                                    class="list-unstyled border border-top-0 w-100 bg-white position-absolute">
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="card-body">
@@ -39,17 +64,7 @@
                             </tr>
                             </thead>
                             <tbody data-repeater-list="group-a" id="products-list">
-                            <tr data-repeater-item="" id="p-div" data-item-id="">
-                                <th id="p-id">#00</th>
-                                <td><input type="text" size="10" placeholder="Name" id="p-name"></td>
-                                <th id="p-code">000</th>
-                                <td><input type="text" size="3" placeholder="0" id="p-rate"></td>
-                                <td><input type="text" size="3" placeholder="0" id="p-qty" value="1"></td>
-                                <td><input type="text" size="3" placeholder="0" id="p-vat"></td>
-                                <td><input type="text" size="3" placeholder="0" id="p-amount"></td>
-                                <th id="p-net">00</th>
-                                <th><button class="btn btn-sm btn-danger" data-repeater-delete="" value="Delete"><i class="fa fa-trash"></i></button></th>
-                            </tr>
+
                             </tbody>
                         </table>
                         <input data-repeater-create="" type="button" class="btn btn-success mt-3 mt-lg-0" value="Add">
@@ -123,4 +138,68 @@
     <script src="{% static 'core/js/pages/form-repeater.int.js' %}"></script>
 {% endblock %}
 
+
+{% block js_code %}
+    <script>
+
+        let current;
+
+        $('#search').keyup(function () {
+            let search = $('#search').val();
+            if (search != '') {
+                searchproducts(search);
+            } else {
+                $('#searchlist-products').html('');
+            }
+        });
+
+        function searchproducts(search) {
+            $.get('/admins/api/product/?name=' + search, function () {
+            }).done(function (data, status) {
+                if (status === 'success') {
+                    $('#searchlist-products').html('');
+                    for (let i = 0; i < data.length; i++) {
+                        $('#searchlist-products').append('<li class="px-2 py-1" data-code="' + data[i].code + '" data-vat="' + data[i].vat + '" data-rate="' + data[i].rate + '" id="' + data[i].id + '">' + data[i].name + '</li>');
+                    }
+                }
+            });
+        }
+
+        $('#searchlist-products').on('click', 'li', function () {
+            if (isproductexistsincart(this.id) === false) {
+
+                let html = `
+                           <tr data-repeater-item="" id="p-div" data-item-id="">
+                                <th id="p-id">#${this.id}</th>
+                                <td>${$(this).text()}</td>
+                                <th id="p-code">${$(this).data('code')}</th>
+                                <td><input type="text" size="3" placeholder="0" value="${$(this).data('rate')}" id="p-rate"></td>
+                                <td><input type="text" size="3" placeholder="0" id="p-qty" value="1"></td>
+                                <td><input type="text" size="3" placeholder="0" value="${$(this).data('vat')}" id="p-vat"></td>
+                                <td><input type="text" size="3" placeholder="0" id="p-amount"></td>
+                                <th id="p-net">00</th>
+                                <th>
+                                    <button class="btn btn-sm btn-danger" data-repeater-delete="" value="Delete"><i
+                                            class="fa fa-trash"></i></button>
+                                </th>
+                            </tr>
+`
+                $('#products-list').append(html);
+            }
+            $('#searchlist-products').html('');
+        });
+
+        function isproductexistsincart(id) {
+            let flag = false;
+            $('#products-list > tr').each(function () {
+                if ($(this).data('item-id') === id) {
+                    alert('Product Already exists');
+                    flag = true;
+                }
+            });
+            return flag;
+        }
+
+    </script>
+{% endblock %}
 
