@@ -109,6 +109,14 @@
                         </div>
                         <div class="d-print-none mt-4 text-right">
                             <div class="float-end">
+                                <a href="{% url 'admins:dashboard' %}"
+                                   class="btn btn-link waves-effect waves-light me-1"><i
+                                        class="fa fa-arrow-left"></i> Invoices
+                                </a>
+                                <a href="{% url 'admins:invoicer' %}"
+                                   class="btn btn-link waves-effect waves-light me-1"><i
+                                        class="fa fa-barcode"></i> Invoicer
+                                </a>
                                 <a href="javascript:window.print()"
                                    class="btn btn-success waves-effect waves-light me-1"><i
                                         class="fa fa-print"></i> Print Receipt
