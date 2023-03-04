@@ -26,7 +26,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
 from .models import (
-    User
+    User, Company
 )
 
 
@@ -206,8 +206,14 @@ class UserCustomAdmin(admin.ModelAdmin):
         return super().response_add(request, obj, post_url_continue)
 
 
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name', 'tagline', 'is_active', 'created_on']
+    list_filter = ['is_active']
+
+
 # CUSTOM USER
 admin.site.register(User, UserCustomAdmin)
+admin.site.register(Company, CompanyAdmin)
 
 admin.site.site_header = "Root Access"
 admin.site.site_title = "Tarbazar Invoicer"
