@@ -201,7 +201,7 @@
             });
 
             function searchproducts(search) {
-                $.get('/admins/api/product/?name=' + search, function () {
+                $.get('/admins/api/product/?search=' + search, function () {
                 }).done(function (data, status) {
                     if (status === 'success') {
                         $('#searchlist-products').html('');
@@ -238,6 +238,7 @@
                 }
                 $('#searchlist-products').html('');
                 $('#search').val('');
+                $('#search').focus();
                 totalling();
             });
 
