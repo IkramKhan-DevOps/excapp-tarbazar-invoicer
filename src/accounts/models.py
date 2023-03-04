@@ -42,6 +42,14 @@ class User(AbstractUser):
         self.profile_image.delete(save=True)
         super(User, self).delete(*args, **kwargs)
 
+    def get_user_company(self):
+        companies = Company.objects.all()
+        if companies:
+            return companies.first()
+        return Company.objects.create(
+            name='no-name', tagline='__ no tagline __', description='__no description available__'
+        )
+
     def get_name_or_username(self):
         return f'{self.first_name} {self.last_name}' if self.first_name or self.last_name else self.username
 

@@ -26,18 +26,22 @@
                     <div class="card-body">
                         <div class="invoice-title text-center">
 
-                            <h4 class="float-end font-size-16">Invoice ID #{{ object.pk }}</h4>
-                            {% if object.company_name %}
-                                <h3 class="float-end font-size-16">{{ object.company_name }}</h3>
+                            {% if request.user.get_user_company.logo %}
+                                <img src="{{ request.user.get_user_company.logo.url }}" height="100" alt="">
+                            {% else %}
+                                <img src="{% static 'core/images/logos/logo.png' %}" height="100" alt="">
                             {% endif %}
-                            {% if object.company_description %}
-                                <h3 class="float-end font-size-16">{{ object.company_description }}</h3>
-                            {% endif %}
+
+                            <h3 class="float-end font-size-16">{{ request.user.get_user_company.name }}</h3>
+                            <h3 class="float-end font-size-16">{{ request.user.get_user_company.description }}</h3>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-6">
                                 <address>
+                                    <strong>Invoice:</strong><br>
+                                    # {{ object.pk }}<br><br>
+
                                     <strong>Customer:</strong><br>
                                     {{ object.customer_name }}<br><br>
 
