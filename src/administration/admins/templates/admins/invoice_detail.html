@@ -26,18 +26,24 @@
                     <div class="card-body">
                         <div class="invoice-title text-center">
 
-                            <h4 class="float-end font-size-16">Invoice ID #{{ object.pk }}</h4>
-                            {% if object.company_name %}
-                                <h3 class="float-end font-size-16">{{ object.company_name }}</h3>
+                            {% if company.logo %}
+                                <img src="{{ company.logo.url }}" height="80" alt="">
+                            {% else %}
+                                <img src="{% static 'core/images/logos/logo.png' %}" height="80" alt="">
                             {% endif %}
-                            {% if object.company_description %}
-                                <h3 class="float-end font-size-16">{{ object.company_description }}</h3>
-                            {% endif %}
+
+                            <h3 class="float-end mt-2 mb-0 font-weight-bolder">
+                                {{ company.name }}
+                            </h3>
+                            <p class="float-end">{{ company.description }}</p>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-6">
                                 <address>
+                                    <strong>Invoice:</strong><br>
+                                    # {{ object.pk }}<br><br>
+
                                     <strong>Customer:</strong><br>
                                     {{ object.customer_name }}<br><br>
 
@@ -54,7 +60,7 @@
                             </div>
                             <div class="col-sm-6 text-right">
                                 {% if object.qr_image %}
-                                    <img src="{{ object.qr_image.url }}" height="200">
+                                    <img src="{{ object.qr_image.url }}" height="250">
                                 {% endif %}
                             </div>
                         </div>
@@ -81,7 +87,7 @@
                                         <td>{{ item.amount }}</td>
                                         <td>{{ item.vat }}</td>
                                         <td>{{ item.quantity }}</td>
-                                        <td>{% multiply item.quantity item.amount %}</td>
+                                        <td>{{ item.net_total }}</td>
                                     </tr>
                                 {% endfor %}
 

@@ -25,6 +25,8 @@ class User(AbstractUser):
         help_text='size of logo must be 250*250 and format must be png image file', crop=['middle', 'center']
     )
     phone_number = models.CharField(max_length=30, null=True, blank=True)
+    company = models.ForeignKey('Company', on_delete=models.SET_NULL, null=True, blank=True)
+
     REQUIRED_FIELDS = ["username"]
     USERNAME_FIELD = "email"
 
@@ -40,8 +42,40 @@ class User(AbstractUser):
         self.profile_image.delete(save=True)
         super(User, self).delete(*args, **kwargs)
 
+    def get_user_company(self):
+        companies = Company.objects.all()
+        if companies:
+            return companies.first()
+        return Company.objects.create(
+            name='no-name', tagline='__ no tagline __', description='__no description available__'
+        )
+
     def get_name_or_username(self):
         return f'{self.first_name} {self.last_name}' if self.first_name or self.last_name else self.username
+
+
+class Company(models.Model):
+    name = models.CharField(max_length=255)
+    tagline = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+    logo = ResizedImageField(
+        upload_to='accounts/images/companies/', null=True, blank=True, size=[500, 500], quality=75, force_format='PNG',
+        help_text='size of logo must be 500*500 and format must be png image file', crop=['middle', 'center']
+    )
+
+    is_active = models.BooleanField(default=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name_plural = 'Companies'
+
+    def __str__(self):
+        return self.name
+
+    def delete(self, *args, **kwargs):
+        self.logo.delete(save=True)
+        super(Company, self).delete(*args, **kwargs)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL, dispatch_uid="user_registered")

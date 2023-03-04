@@ -19,8 +19,6 @@ class Product(models.Model):
 
 
 class Invoice(models.Model):
-    company_name = models.CharField(max_length=255, null=True, blank=True)
-    company_description = models.TextField(max_length=1000, null=True, blank=True)
     customer_name = models.CharField(max_length=255)
     address = models.CharField(max_length=1000, null=True, blank=True)
     total = models.FloatField(default=00)
@@ -55,3 +53,7 @@ class InvoiceItem(models.Model):
 
     def __str__(self):
         return self.invoice.customer_name
+
+    def net_total(self):
+        total = self.quantity * self.amount
+        return total + (total * (self.vat/100))

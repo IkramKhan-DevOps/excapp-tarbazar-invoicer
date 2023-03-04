@@ -47,7 +47,6 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Customer</th>
-                                        <th>Company</th>
                                         <th>VAT</th>
                                         <th>Total</th>
                                         <th>Grand Total</th>
@@ -62,15 +61,6 @@
                                             <td>#{{ object.id }}</td>
                                             <td>
                                                 <b>{{ object.customer_name }}</b>
-                                            </td>
-                                            <td>
-                                                <b>
-                                                    {% if object.company_name %}
-                                                        {{ object.company_name }}
-                                                    {% else %}
-                                                        -
-                                                    {% endif %}
-                                                </b>
                                             </td>
                                             <td>{{ object.vat }}</td>
                                             <td>{{ object.total }}</td>

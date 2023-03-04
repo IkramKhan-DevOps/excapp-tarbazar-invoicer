@@ -16,8 +16,9 @@ from django.views.generic import (
 )
 
 from core.settings import BASE_URL
+from src.accounts.bll import get_company_profile_bll
 # from faker_data import initialization
-from src.accounts.models import User
+from src.accounts.models import User, Company
 from src.administration.admins.filters import UserFilter, ProductFilter, InvoiceFilter
 from src.administration.admins.models import Product, Invoice, InvoiceItem
 
@@ -29,6 +30,7 @@ class DashboardView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         return redirect("admins:invoice-list")
+
     """
     Registrations: Today, Month, Year (PAID/UNPAID)
     Subscriptions: Today, Month, Year (TYPES)
@@ -183,6 +185,11 @@ class InvoiceUpdateView(UpdateView):
 class InvoiceDetailView(DetailView):
     model = Invoice
 
+    def get_context_data(self, **kwargs):
+        context = super(InvoiceDetailView, self).get_context_data(**kwargs)
+        context['company'] = get_company_profile_bll()
+        return context
+
 
 @method_decorator(admin_decorators, name='dispatch')
 class InvoiceDeleteView(DeleteView):
@@ -202,8 +209,6 @@ class InvoicerView(View):
         data = dict(request.POST)
         customer_name = data['customer_name'][0]
         address = data['address'][0]
-        company_name = data['company_name'][0]
-        company_description = data['company_description'][0]
 
         if not request.POST.get('p-id'):
             messages.error(request, "No products selected for now.")
@@ -218,8 +223,6 @@ class InvoicerView(View):
             invoice = Invoice(
                 customer_name=customer_name,
                 address=address,
-                company_name=company_name,
-                company_description=company_description,
             )
 
             invoice.total = data['total'][0]
@@ -248,3 +251,17 @@ class InvoicerView(View):
             return redirect('admins:invoice-detail', invoice.pk)
 
         return render(request, self.template_name)
+
+
+@method_decorator(admin_decorators, name='dispatch')
+class CompanyUpdateView(UpdateView):
+    template_name = 'admins/company_form.html'
+    model = Company
+    fields = '__all__'
+
+    def get_success_url(self):
+        messages.success(self.request, "Company records are updated.")
+        return reverse_lazy("admins:company-update")
+
+    def get_object(self, queryset=None):
+        return get_company_profile_bll()
