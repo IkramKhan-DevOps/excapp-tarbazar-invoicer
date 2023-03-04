@@ -6,7 +6,7 @@ from django.core.files import File
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AdminPasswordChangeForm
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
@@ -242,5 +242,6 @@ class InvoicerView(View):
                 ).save()
 
             messages.success(request, "Invoice created successfully.")
+            return redirect('admins:invoice-detail', invoice.pk)
 
         return render(request, self.template_name)
