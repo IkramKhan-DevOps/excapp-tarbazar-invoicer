@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.filters import SearchFilter
 
@@ -9,7 +10,7 @@ class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [SearchFilter]
-    filterset_fields = ['id', 'name', 'code']
+    search_fields = ['name']
 
 
 class InvoiceCreateView(generics.CreateAPIView):

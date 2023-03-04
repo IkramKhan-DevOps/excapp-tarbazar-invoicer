@@ -188,6 +188,9 @@
                 }
             });
 
+            $('#products-list').on('change', 'input', function () {
+                totalling();
+            });
             $('#products-list').on('keyup', 'input', function () {
                 totalling();
             });
@@ -198,7 +201,7 @@
             });
 
             function searchproducts(search) {
-                $.get('/admins/api/product/?name=' + search, function () {
+                $.get('/admins/api/product/?search=' + search, function () {
                 }).done(function (data, status) {
                     if (status === 'success') {
                         $('#searchlist-products').html('');
@@ -220,7 +223,7 @@
                                 <td>${$(this).data('rate')}</td>
                                 <td><input type="number"  min="0" class="form-control form-control-sm" required style="width: 50px;" placeholder="0" id="p-qty" value="1" name="p-qty"></td>
                                 <td><input type="number" min="0" class="form-control form-control-sm" required style="width: 60px;" placeholder="0" value="${$(this).data('vat')}" id="p-vat" name="p-vat"></td>
-                                <td><input type="number" min="0" class="form-control form-control-sm" required style="width: 70px;" placeholder="0" id="p-amount" name="p-amount" value="1"></td>
+                                <td><input type="number" min="0" class="form-control form-control-sm" required style="width: 70px;" placeholder="0" id="p-amount" name="p-amount" value="${$(this).data('rate')}"></td>
                                 <td hidden><input type="text" size="3" hidden placeholder="0" id="p-id" name="p-id" value="${this.id}"></td>
                                 <th id="p-net">00</th>
                                 <th>
@@ -235,6 +238,7 @@
                 }
                 $('#searchlist-products').html('');
                 $('#search').val('');
+                $('#search').focus();
                 totalling();
             });
 
@@ -259,15 +263,20 @@
                     let amount = parseFloat($(id + ' #p-amount').val());
                     let vat = parseFloat($(id + ' #p-vat').val());
                     let qty = parseFloat($(id + ' #p-qty').val());
-                    let net = qty * amount
-                    $(id + ' #p-net').text(net);
 
-                    _total += net;
+                    let total = qty * amount;
+                    let net_total = total + (total * (vat/100));
+                    let vat_total = total*(vat/100);
+
+                    $(id + ' #p-net').text(net_total);
+                    _total += total;
+                    _grand_total += net_total;
+                    _vat += vat_total;
                 });
 
-                $('#total').val(_total);
-                $('#grand-total').val(_total);
-                $('#vat-total').val(_total);
+                $('#total').val(_total.toFixed(1));
+                $('#grand-total').val(_grand_total.toFixed(1));
+                $('#vat-total').val(_vat.toFixed(1));
             }
 
         });

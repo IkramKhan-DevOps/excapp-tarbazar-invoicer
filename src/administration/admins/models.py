@@ -25,7 +25,7 @@ class Invoice(models.Model):
     address = models.CharField(max_length=1000, null=True, blank=True)
     total = models.FloatField(default=00)
     vat = models.FloatField(default=00)
-    grand_total = models.PositiveIntegerField(default=00)
+    grand_total = models.FloatField(default=00)
 
     qr_image = models.ImageField(
         upload_to='accounts/images/wallets/', null=True, blank=True,
