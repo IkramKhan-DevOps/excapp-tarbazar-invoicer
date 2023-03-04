@@ -27,13 +27,13 @@
                         <div class="invoice-title text-center">
 
                             {% if request.user.get_user_company.logo %}
-                                <img src="{{ request.user.get_user_company.logo.url }}" height="100" alt="">
+                                <img src="{{ request.user.get_user_company.logo.url }}" height="80" alt="">
                             {% else %}
-                                <img src="{% static 'core/images/logos/logo.png' %}" height="100" alt="">
+                                <img src="{% static 'core/images/logos/logo.png' %}" height="80" alt="">
                             {% endif %}
 
-                            <h3 class="float-end font-size-16">{{ request.user.get_user_company.name }}</h3>
-                            <h3 class="float-end font-size-16">{{ request.user.get_user_company.description }}</h3>
+                            <h3 class="float-end mt-2 mb-0 font-weight-bolder">{{ request.user.get_user_company.name }}</h3>
+                            <p class="float-end">{{ request.user.get_user_company.description }}</p>
                         </div>
                         <hr>
                         <div class="row">
@@ -58,7 +58,7 @@
                             </div>
                             <div class="col-sm-6 text-right">
                                 {% if object.qr_image %}
-                                    <img src="{{ object.qr_image.url }}" height="200">
+                                    <img src="{{ object.qr_image.url }}" height="250">
                                 {% endif %}
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                                         <td>{{ item.amount }}</td>
                                         <td>{{ item.vat }}</td>
                                         <td>{{ item.quantity }}</td>
-                                        <td>{% multiply item.quantity item.amount %}</td>
+                                        <td>{{ item.net_total }}</td>
                                     </tr>
                                 {% endfor %}
 
