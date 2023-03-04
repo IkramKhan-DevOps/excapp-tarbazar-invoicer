@@ -189,9 +189,11 @@
             });
 
             $('#products-list').on('change', 'input', function () {
+                form_validation($(this));
                 totalling();
             });
             $('#products-list').on('keyup', 'input', function () {
+                form_validation($(this));
                 totalling();
             });
 
@@ -210,6 +212,12 @@
                         }
                     }
                 });
+            }
+
+            function form_validation(element) {
+                if(element.val() === "" || element.val() == null){
+                    element.addClass("border border-danger bg-soft-danger");
+                }else{element.removeClass("border border-danger bg-soft-danger");}
             }
 
             $('#searchlist-products').on('click', 'li', function () {
