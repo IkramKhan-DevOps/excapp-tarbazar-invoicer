@@ -26,6 +26,9 @@ admin_decorators = [login_required, user_passes_test(lambda u: u.is_superuser)]
 
 @method_decorator(admin_decorators, name='dispatch')
 class DashboardView(TemplateView):
+
+    def dispatch(self, request, *args, **kwargs):
+        return redirect("admins:invoice-list")
     """
     Registrations: Today, Month, Year (PAID/UNPAID)
     Subscriptions: Today, Month, Year (TYPES)
