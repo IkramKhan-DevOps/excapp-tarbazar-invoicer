@@ -48,7 +48,7 @@
                                     <th>Name</th>
                                     <th>Code</th>
                                     <th>Rate</th>
-                                    <th>Vat</th>
+                                    <th>Vat %</th>
                                     <th>Status</th>
                                     <th>Created</th>
                                     <th>-</th>
@@ -65,7 +65,7 @@
                                         </td>
                                         <td>{{ object.code }}</td>
                                         <td>{{ object.rate }}</td>
-                                        <td>{{ object.vat }}</td>
+                                        <td><b>{{ object.vat }} %</b></td>
                                         <td>
                                             {% if object.is_active %}
                                                 <span class="badge badge-soft-success">Active</span>
