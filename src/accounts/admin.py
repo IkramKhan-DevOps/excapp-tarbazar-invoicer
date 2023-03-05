@@ -33,8 +33,8 @@ from .models import (
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
 
+
 class UserCustomAdmin(admin.ModelAdmin):
-    add_form_template = 'core/auth/user/add_form.html'
     change_user_password_template = None
     fieldsets = (
         (None, {'fields': ('username', 'password')}),

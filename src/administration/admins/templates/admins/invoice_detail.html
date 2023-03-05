@@ -26,16 +26,17 @@
                     <div class="card-body">
                         <div class="invoice-title text-center">
 
-                            {% if company.logo %}
-                                <img src="{{ company.logo.url }}" height="80" alt="">
-                            {% else %}
-                                <img src="{% static 'core/images/logos/logo.png' %}" height="80" alt="">
-                            {% endif %}
+{#                            {% if company.logo %}#}
+{#                                <img src="{{ company.logo.url }}" height="80" alt="">#}
+{#                            {% else %}#}
+{#                                <img src="{% static 'core/images/logos/logo.png' %}" height="80" alt="">#}
+{#                            {% endif %}#}
 
-                            <h3 class="float-end mt-2 mb-0 font-weight-bolder">
+                            <h2 class="float-end mt-1 mb-2 font-weight-bolder">
                                 {{ company.name }}
-                            </h3>
-                            <p class="float-end">{{ company.description }}</p>
+                            </h2>
+                            <h5 class="float-end mb-0 font-weight-bold">{{ company.description }}</h5>
+                            <h5 class="float-end font-weight-bold">{{ company.description_arabic }}</h5>
                         </div>
                         <hr>
                         <div class="row">
@@ -106,6 +107,15 @@
 
                                 </tbody>
                             </table>
+                        </div>
+                        <hr>
+                        <div class="">
+                            <h5 class="mb-0 text-center font-weight-bold">
+                                {{ company.description }}
+                            </h5>
+                            <h5 class="mb-0 text-center font-weight-bold">
+                                {{ company.description_arabic }}
+                            </h5>
                         </div>
                         <div class="d-print-none mt-4 text-right">
                             <div class="float-end">
