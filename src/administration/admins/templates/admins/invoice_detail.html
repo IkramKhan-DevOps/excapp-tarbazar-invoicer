@@ -31,12 +31,16 @@
 {#                            {% else %}#}
 {#                                <img src="{% static 'core/images/logos/logo.png' %}" height="80" alt="">#}
 {#                            {% endif %}#}
+                            
+                            <div class="text-center">
+                                <img src="{% static 'Header.png' %}" width="80%">
+                            </div>
 
-                            <h2 class="float-end mt-1 mb-2 font-weight-bolder">
-                                {{ company.name }}
-                            </h2>
-                            <h5 class="float-end mb-0 font-weight-bold">{{ company.description }}</h5>
-                            <h5 class="float-end font-weight-bold">{{ company.description_arabic }}</h5>
+{#                            <h2 class="float-end mt-1 mb-2 font-weight-bolder">#}
+{#                                {{ company.name }}#}
+{#                            </h2>#}
+{#                            <h5 class="float-end mb-0 font-weight-bold">{{ company.description }}</h5>#}
+{#                            <h5 class="float-end font-weight-bold">{{ company.description_arabic }}</h5>#}
                         </div>
                         <hr>
                         <div class="row">
@@ -109,8 +113,11 @@
                             </table>
                         </div>
                         <hr>
-                        <div class="">
-                            <h5 class="mb-0 text-center font-weight-bold">
+                        <div class="mt-5">
+                            <div>
+                                <p><b>Signature</b>_______________________</p>
+                            </div>
+                            <h5 class="mb-0 mt-5 text-center font-weight-bold">
                                 {{ company.description }}
                             </h5>
                             <h5 class="mb-0 text-center font-weight-bold">
