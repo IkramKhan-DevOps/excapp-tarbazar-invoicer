@@ -58,6 +58,7 @@ class Company(models.Model):
     name = models.CharField(max_length=255)
     tagline = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
+    description_arabic = models.TextField(null=True, blank=True)
     logo = ResizedImageField(
         upload_to='accounts/images/companies/', null=True, blank=True, size=[500, 500], quality=75, force_format='PNG',
         help_text='size of logo must be 500*500 and format must be png image file', crop=['middle', 'center']

@@ -133,4 +133,5 @@ migrations/
 /migrations
 media/
 db.sqlite3
+assets/
 
