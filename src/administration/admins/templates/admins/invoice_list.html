@@ -47,11 +47,12 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Customer</th>
+                                        <th>Phone</th>
                                         <th>VAT</th>
                                         <th>Total</th>
                                         <th>Grand Total</th>
                                         <th>Status</th>
-                                        <th>Created</th>
+                                        <th>Created On</th>
                                         <th>-</th>
                                     </tr>
                                     </thead>
@@ -61,6 +62,13 @@
                                             <td>#{{ object.id }}</td>
                                             <td>
                                                 <b>{{ object.customer_name }}</b>
+                                            </td>
+                                            <td>
+                                                {% if object.phone %}
+                                                    {{ object.phone }}
+                                                {% else %}
+                                                    <b class="text-danger">-</b>
+                                                {% endif %}
                                             </td>
                                             <td>{{ object.vat }}</td>
                                             <td>{{ object.total }}</td>

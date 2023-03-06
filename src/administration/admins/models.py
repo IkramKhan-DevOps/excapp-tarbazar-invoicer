@@ -21,6 +21,7 @@ class Product(models.Model):
 class Invoice(models.Model):
     customer_name = models.CharField(max_length=255)
     address = models.CharField(max_length=1000, null=True, blank=True)
+    phone = models.CharField(max_length=15, null=True, blank=True)
     total = models.FloatField(default=00)
     vat = models.FloatField(default=00)
     grand_total = models.FloatField(default=00)
