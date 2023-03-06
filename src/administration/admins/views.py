@@ -209,6 +209,7 @@ class InvoicerView(View):
         data = dict(request.POST)
         customer_name = data['customer_name'][0]
         address = data['address'][0]
+        phone = data['phone'][0]
 
         if not request.POST.get('p-id'):
             messages.error(request, "No products selected for now.")
@@ -222,7 +223,7 @@ class InvoicerView(View):
 
             invoice = Invoice(
                 customer_name=customer_name,
-                address=address,
+                address=address, phone=phone
             )
 
             invoice.total = data['total'][0]
