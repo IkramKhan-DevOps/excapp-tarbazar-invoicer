@@ -13,7 +13,19 @@
 {% block page_heading_right %}
     <a href="{% url 'admins:invoice-list' %}">
         <i class="fa fa-arrow-left"></i> Invoices
-    </a>
+    </a>&nbsp;
+    {% if object %}
+        <a href="{% url 'admins:invoice-detail' object.pk %}">
+            <i class="fa fa-barcode"></i> Invoice
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+          integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous"/>
+
 {% endblock %}
 
 {% block content %}
@@ -36,6 +48,21 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+            integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block js_code %}
+    <script>
+        $(document).ready(function () {
+            $('#id_created_on').datetimepicker({
+                format: 'Y-m-d H:i:s',
+            });
+        });
+    </script>
 {% endblock %}
 
 

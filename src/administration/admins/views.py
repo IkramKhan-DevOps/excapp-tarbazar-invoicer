@@ -178,7 +178,9 @@ class InvoiceCreateView(CreateView):
 @method_decorator(admin_decorators, name='dispatch')
 class InvoiceUpdateView(UpdateView):
     model = Invoice
-    fields = '__all__'
+    fields = [
+        'customer_name', 'address', 'phone', 'total', 'vat', 'grand_total', 'is_active', 'created_on'
+    ]
     success_url = reverse_lazy('admins:invoice-list')
 
 

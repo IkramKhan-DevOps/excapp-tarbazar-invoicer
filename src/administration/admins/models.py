@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.utils import timezone
 
 
 class Product(models.Model):
@@ -33,13 +34,18 @@ class Invoice(models.Model):
     product_items = models.ManyToManyField(Product, through='InvoiceItem')
 
     is_active = models.BooleanField(default=True)
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(null=False, blank=True)
 
     class Meta:
         ordering = ['-created_on']
 
     def __str__(self):
         return self.customer_name
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.created_on = timezone.now()
+        super(Invoice, self).save(*args, **kwargs)
 
 
 class InvoiceItem(models.Model):
