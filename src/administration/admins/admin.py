@@ -11,6 +11,14 @@ class ProductAdmin(admin.ModelAdmin):
 
 class InvoiceAdmin(admin.ModelAdmin):
     list_display = ['id', 'customer_name', 'total', 'vat', 'grand_total', 'is_active', 'created_on']
+    fieldsets = (
+        (None, {'fields': ('customer_name', 'address', 'phone')}),
+        ('Calculations', {'fields': ('total', 'vat', 'grand_total')}),
+        ('Permissions', {
+            'fields': ('is_active',),
+        }),
+        ('Important dates', {'fields': ('created_on',)}),
+    )
 
 
 class InvoiceItemAdmin(admin.ModelAdmin):

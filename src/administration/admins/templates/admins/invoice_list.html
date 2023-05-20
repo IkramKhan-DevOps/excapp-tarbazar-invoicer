@@ -82,6 +82,8 @@
                                             </td>
                                             <td>{{ object.created_on }}</td>
                                             <td>
+                                                <a href="{% url 'admins:invoice-update' object.pk %}"><b><i
+                                                        class="fa fa-edit"></i> Edit</b></a>&nbsp;&nbsp;
                                                 <a href="{% url 'admins:invoice-detail' object.pk %}"><b><i
                                                         class="fa fa-print"></i> Print</b></a>&nbsp;&nbsp;
                                                 <a href="{% url 'admins:invoice-delete' object.pk %}"
