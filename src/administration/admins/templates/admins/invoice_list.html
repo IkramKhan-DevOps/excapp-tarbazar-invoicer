@@ -45,6 +45,7 @@
                                 <table class="table align-middle table-nowrap mb-0 table-hover">
                                     <thead class="thead-light">
                                     <tr>
+                                        <th></th>
                                         <th>ID</th>
                                         <th>Customer</th>
                                         <th>Phone</th>
@@ -59,6 +60,10 @@
                                     <tbody>
                                     {% for object in object_list %}
                                         <tr>
+                                            <td>
+                                                <a href="{% url 'admins:invoice-update' object.pk %}"><b><i
+                                                    class="fa fa-edit"></i> Edit</b></a>
+                                            </td>
                                             <td>#{{ object.id }}</td>
                                             <td>
                                                 <b>{{ object.customer_name }}</b>
@@ -82,8 +87,6 @@
                                             </td>
                                             <td>{{ object.created_on }}</td>
                                             <td>
-                                                <a href="{% url 'admins:invoice-update' object.pk %}"><b><i
-                                                        class="fa fa-edit"></i> Edit</b></a>&nbsp;&nbsp;
                                                 <a href="{% url 'admins:invoice-detail' object.pk %}"><b><i
                                                         class="fa fa-print"></i> Print</b></a>&nbsp;&nbsp;
                                                 <a href="{% url 'admins:invoice-delete' object.pk %}"
